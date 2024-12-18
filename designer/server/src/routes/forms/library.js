@@ -19,13 +19,22 @@ export default [
        * @param {RequestFormsLibrary} request
        */
       handler: async (request, h) => {
-        const { auth, query } = request
+        const { auth, query, yar } = request
         const token = auth.credentials.token
 
         const { page, perPage } = query
 
         const paginationOptions = { page, perPage }
-        const model = await library.listViewModel(token, paginationOptions)
+
+        const successNotification = yar
+          .flash(sessionNames.successNotification)
+          .at(0)
+
+        const model = await library.listViewModel(
+          token,
+          paginationOptions,
+          successNotification
+        )
 
         if (model.pagination) {
           const { totalPages } = model.pagination

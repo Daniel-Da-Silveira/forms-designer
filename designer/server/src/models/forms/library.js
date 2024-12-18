@@ -21,15 +21,17 @@ import {
  * @property {string} pageTitle - The number of items per page.
  * @property {{ text: string }} pageHeading - The page heading.
  * @property {Array<FormMetadata>} formItems - The form items.
+ * @property {string} [notification] - The notificationto display
  * @property {(PaginationResult & { pages: Array<PaginationPage> }) | undefined} pagination - The pagination.
  */
 
 /**
  * @param {string} token
  * @param {PaginationOptions} paginationOptions
+ * @param {string} [notification] - success notification to display
  * @returns {Promise<ListViewModel>}
  */
-export async function listViewModel(token, paginationOptions) {
+export async function listViewModel(token, paginationOptions, notification) {
   const pageTitle = 'Forms library'
 
   const formResponse = await forms.list(token, paginationOptions)
@@ -56,7 +58,8 @@ export async function listViewModel(token, paginationOptions) {
       text: pageTitle
     },
     formItems,
-    pagination
+    pagination,
+    notification
   }
 }
 
@@ -173,6 +176,16 @@ export function overviewViewModel(metadata, notification) {
               text: 'Make draft live',
               attributes: {
                 formaction: `${formPath}/make-draft-live`
+              }
+            }
+          ],
+      secondaryActions: metadata.live
+        ? []
+        : [
+            {
+              text: 'Delete draft',
+              attributes: {
+                formaction: `${formPath}/delete-draft`
               }
             }
           ]
