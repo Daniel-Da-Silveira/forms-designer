@@ -70,6 +70,7 @@ describe('user-session', () => {
     test('should return user id', async () => {
       jest.mocked(hasAuthenticated).mockReturnValueOnce(true)
       jest.mocked(getUserClaims).mockReturnValue(mockUserClaims)
+      jest.mocked(getUserScopes).mockReturnValueOnce([])
       const res = await createUserSession(mockRequest)
       expect(res).toBe('123-123')
       expect(getUser).not.toHaveBeenCalled()
