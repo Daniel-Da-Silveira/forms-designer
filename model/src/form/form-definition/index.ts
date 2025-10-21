@@ -42,7 +42,10 @@ import {
   type Section
 } from '~/src/form/form-definition/types.js'
 import { checkErrors } from '~/src/form/form-manager/errors.js'
-import { FormDefinitionError } from '~/src/form/form-manager/types.js'
+import {
+  FormDefinitionError,
+  FormDefinitionErrorType
+} from '~/src/form/form-manager/types.js'
 import { ControllerType } from '~/src/pages/enums.js'
 import { hasComponents } from '~/src/pages/helpers.js'
 
@@ -177,7 +180,9 @@ const conditionListItemRefDataSchemaV2 =
           return helpers.error('any.ref', {
             arg: 'listId',
             ref: listId,
-            reason: 'does not exist'
+            reason: 'does not exist',
+            errorType: FormDefinitionErrorType.Ref,
+            errorCode: FormDefinitionError.RefConditionListId
           })
         }
 
@@ -187,7 +192,9 @@ const conditionListItemRefDataSchemaV2 =
           : helpers.error('any.ref', {
               arg: 'itemId',
               ref: itemId,
-              reason: `does not exist in list ${listId}`
+              reason: `does not exist in list ${listId}`,
+              errorType: FormDefinitionErrorType.Ref,
+              errorCode: FormDefinitionError.RefConditionItemId
             })
       }
     )
